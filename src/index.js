@@ -8,7 +8,6 @@ import thunk from 'redux-thunk';
 import App from './components/App';
 import reducers from './reducers';
 import reportWebVitals from './reportWebVitals';
-
 import 'bootstrap/dist/css/bootstrap.css';
 
 // const store = createStore(reducers, applyMiddleware(thunk));
