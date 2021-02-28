@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Login from './auth/Login';
 import Mapbox from './maps/Mapbox';
 import Navbar from './nav/Navbar';
 import "./App.css";
@@ -35,7 +34,6 @@ class App extends React.Component {
                         <Route exact path="/" component={Home} />
                         <Route path="/search" component={Search} />
                         <Route path="/map" component={Mapbox} />
-                        <Route path="/login" component={Login} />
                     </div>
                 </BrowserRouter>
             </div>

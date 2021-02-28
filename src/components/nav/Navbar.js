@@ -1,15 +1,32 @@
 import React from "react";
 import "./Navbar.css";
+import LoginModal from '../auth/LoginModal';
+import logo from './logo_transparent.png';
 
 class Navbar extends React.Component {
   render() {
     return (
-      <nav class="nav-bar bg-warning">
-        <ul class="nav-bar-ul">
+      <nav className="navbar navbar-expand-md navbar-light bg-warning">
+        {/* <div className="d-flex w-100 justify-content-between"> */}
+          <a className="navbar-brand" href="/">
+            <img className="d-inline logo-image" src={logo} alt="logo-bee-travel" />
+            <span className="blue d-inline brand-name"> Bee Travel</span>
+          </a>
+        {/* </div> */}
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto"></ul>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item mr-3">
+              <LoginModal />
+            </li>
+          </ul>
+        </div>
+        {/* <ul className="nav-bar-ul">
           <li>
             <a href="/"> Bee-Travel</a>
+            
           </li>
-        </ul>
+        </ul> */}
       </nav>
     );
   }
