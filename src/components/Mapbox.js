@@ -7,7 +7,6 @@ import "./Mapbox.css";
 import { fetchTop10Cities, fetchCities } from '../actions';
 import Search from './Search';
 
-
 class Mapbox extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +16,7 @@ class Mapbox extends React.Component {
         this.generateMarker = this.generateMarker.bind(this);
         this.divGenerator = this.divGenerator.bind(this);
         this.mapLookup = this.mapLookup.bind(this);
+        this.mapDragTo = this.mapDragTo.bind(this);
         this.map = null;
         this.markers = [];
     }
@@ -56,9 +56,12 @@ class Mapbox extends React.Component {
     mapLookup(event) {
         event.preventDefault();
         const { long, lat } = event.target
-        console.log(long.value, lat.value)
-        console.log(this.map)
         this.map.flyTo({center: [Number(long.value), Number(lat.value)], zoom: 9});
+    }
+
+    mapDragTo(coord) {
+        console.log(coord)
+        this.map.flyTo({center: coord, zoom: 9});
     }
 
     componentDidMount() {
@@ -88,6 +91,7 @@ class Mapbox extends React.Component {
                             this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
                             return this.divGenerator(city, index);
                         })}
+                        { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
                     </div>
                     <div id='map' className="col-lg-6 col-sm-12 pl-0"></div>
 
@@ -98,7 +102,7 @@ class Mapbox extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { cities: state.map.cities };
+    return { cities: state.map.cities, searched: state.map.searched };
 }
 
 // export default Mapbox;
