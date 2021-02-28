@@ -20,12 +20,13 @@ class Search extends React.Component {
     formSubmitHandler(event) {
         event.preventDefault();
         this.props.fetchCities(this.state.query);
+        this.setState({query: ""});
     }
 
     render() {
         return (
             <form onSubmit={this.formSubmitHandler} id="search-form" className="form-inline d-flex justify-content-center">
-                <input onChange={this.onChangeHandler} className="form-control mr-sm-2" type="text" name="query" id="query" placeholder="Your favorite city" aria-label="Search" required />
+                <input onChange={this.onChangeHandler} value={this.state.query} className="form-control mr-sm-2" type="text" name="query" id="query" placeholder="Your favorite city" aria-label="Search" required />
                 <button className="btn btn-outline-success my-2 my-sm-0">Search</button>
             </form>
         )

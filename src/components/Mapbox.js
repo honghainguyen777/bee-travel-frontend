@@ -64,6 +64,10 @@ class Mapbox extends React.Component {
         this.map.flyTo({center: coord, zoom: 9});
     }
 
+    removeAllPreviousMarkers() {
+        this.markers.forEach(marker => marker.remove());
+    }
+
     componentDidMount() {
         mapboxgl.accessToken = 'pk.eyJ1Ijoiam5yZG1ubiIsImEiOiJja2wxN3VtY28zaDdlMm5xbjV5Znh0YnBpIn0.s0Cz8vhJe3T1N2wvocwFzw';
         this.map = new mapboxgl.Map({
@@ -87,11 +91,12 @@ class Mapbox extends React.Component {
                 <h3 className="text-center">Favorite cities in the world</h3>
                 <div className="row m-0 container-city">
                     <div className="col-lg-6 col-sm-12" id="search-result">
+                        { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
+                        { this.props.searched ? this.removeAllPreviousMarkers() : "" }
                         {!this.props.cities ? "" : this.props.cities.map((city, index) => {
                             this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
                             return this.divGenerator(city, index);
                         })}
-                        { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
                     </div>
                     <div id='map' className="col-lg-6 col-sm-12 pl-0"></div>
 
