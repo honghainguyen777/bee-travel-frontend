@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import "./Mapbox.css";
 // import * as actions from '../actions';
-import { fetchTop10Cities, fetchCities } from '../actions';
+import { fetchTop10Cities, fetchCities } from '../../actions';
 import Search from './Search';
 
 class Mapbox extends React.Component {
@@ -86,7 +86,7 @@ class Mapbox extends React.Component {
     render() {
         console.log(this.props)
         return(
-            <div className="container">
+            <div className=" m-2">
                 <Search />
                 <h3 className="text-center">Favorite cities in the world</h3>
                 <div className="row m-0 container-city">

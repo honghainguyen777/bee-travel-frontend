@@ -1,6 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import { fetchTop10Cities, fetchCities } from '../actions';
+import { fetchTop10Cities, fetchCities } from '../../actions';
 import { connect } from 'react-redux';
 
 class Search extends React.Component {

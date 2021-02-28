@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Login from './Login';
-import Mapbox from './Mapbox';
+import Login from './auth/Login';
+import Mapbox from './maps/Mapbox';
+import Navbar from './nav/Navbar';
 import "./App.css";
 
 const Home = () => <h1>Home Page</h1>;
@@ -27,7 +28,8 @@ class App extends React.Component {
     }
     render() {
         return(
-            <div>
+            <div className="app-container">
+                <Navbar />
                 <BrowserRouter>
                     <div>
                         <Route exact path="/" component={Home} />
