@@ -5,7 +5,7 @@ import "./Login.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import logo from '../nav/logo_transparent.png';
-import { login, closeLoginModal } from '../../actions';
+import { login, closeLoginModal, switchModalAction } from '../../actions';
 
 
 import SignupModal from './SignupModal';
@@ -14,48 +14,34 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
       username: "",
       password: "",
-      flag: false,
     };
-    // this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    // this.switchModal = this.switchModal.bind(this);
+    this.switchModal = this.switchModal.bind(this);
   }
 
   handleClose() {
     this.props.closeLoginModal();
   }
 
-  // handleShow() {
-  //   this.setState({show: true, flag: false, switch: false});
-  // }
-
   handleFormSubmit(event) {
     event.preventDefault();
     const { username, password } = this.state;
     this.props.login(username, password);
-    this.setState({username: "", password: "", flag: true});
-    // this.setState({username: "", password: ""});
+    this.setState({username: "", password: ""});
   }
 
   handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value, flag: false });
+    this.setState({ [name]: value});
   }
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   console.log("next props", nextProps.isSuccessed);
-  //   console.log("previous props", prevState);
-  //   return null;
-  // }
-
-  // switchModal() {
-  //   this.setState({show: false});
-  // }
+  switchModal() {
+    this.props.switchModalAction("login");
+  }
 
   render() {
     console.log(this.props.isSuccessed, this.props.message)
@@ -119,15 +105,8 @@ class LoginModal extends Component {
         </div>
         <div className="d-flex justify-content-center">
         {/* <SignupModal /> */}
-        <button type="button" className="btn btn-secondary btn-register mb-3">New Account</button>
-        {/* { this.state.switch ? <SignupModal switch={this.state.switch}/> : null} */}
+        <button type="button" onClick={this.switchModal} className="btn btn-secondary btn-register mb-3">New Account</button>
         </div>
-          {/* <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Close
-            </Button>
-            <Button variant="primary">Understood</Button>
-          </Modal.Footer> */}
         </Modal>
       </>
     );
@@ -135,11 +114,10 @@ class LoginModal extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.auth.messageLogin);
   return { isSuccessed: state.auth.isSuccessed,
     message: state.auth.messageLogin,
     isModalOpen: state.auth.is_login_modal
   };
 }
 
-export default connect(mapStateToProps, { login, closeLoginModal })(LoginModal);
+export default connect(mapStateToProps, { login, closeLoginModal, switchModalAction})(LoginModal);

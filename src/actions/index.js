@@ -2,7 +2,7 @@ import axios from 'axios';
 import { FETCH_USER, LOGIN, FETCH_CITIES,
     CITY_INIT, OPEN_REGISTER, CLOSE_REGISTER,
     OPEN_LOGIN, CLOSE_LOGIN, SUCCESSFUL_LOGIN,
-    FAIL_LOGIN
+    FAIL_LOGIN, SWITCH_MODAL
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -33,6 +33,16 @@ export const openLoginModal = () => dispatch => {
 
 export const closeLoginModal = () => dispatch => {
     dispatch({ type: CLOSE_LOGIN});
+};
+
+export const switchModalAction = (currentModal) => dispatch => {
+    console.log("called")
+    if (currentModal === "login") {
+        dispatch({ type: OPEN_REGISTER});
+    }
+    else {
+        dispatch({ type: OPEN_LOGIN});
+    }
 };
 
 export const fetchTop10Cities = () => async dispatch => {
