@@ -4,9 +4,10 @@ const authReducer = (state={}, action) => {
     console.log(action);
     switch (action.type) {
         case LOGIN:
-            console.log('login', action.payload);
+            console.log('login', action.payload.message);
             return {
-                ...state, isSignedIn: true, user: action.payload
+                // token here later
+                ...state, message: action.payload.message, isSuccessed: action.payload.success
             };
         case FETCH_USER:
             console.log('fetch user', action.payload);
