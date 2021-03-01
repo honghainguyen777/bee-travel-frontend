@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 import LoginModal from '../auth/Login';
-import SignupModal from '../auth/SignupModal';
+import RegisterModal from '../auth/RegisterModal';
 import logo from './logo_transparent.png';
 import { openRegisterModal, openLoginModal } from '../../actions';
 import { connect } from 'react-redux';
@@ -32,7 +32,7 @@ class Navbar extends React.Component {
           <ul className="navbar-nav ml-auto">
             <li className="nav-item mr-3">
               <LoginModal />
-              <SignupModal />
+              <RegisterModal />
               <button onClick={() => this.openModal("register")}>Register</button>
               <button onClick={() => this.openModal("login")}>Login</button>
             </li>

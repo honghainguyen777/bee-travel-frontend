@@ -1,18 +1,12 @@
 import { FETCH_USER, LOGIN, FETCH_CITIES, CITY_INIT,
     OPEN_REGISTER, CLOSE_REGISTER, OPEN_LOGIN,
     CLOSE_LOGIN, SUCCESSFUL_LOGIN, FAIL_LOGIN,
-    SWITCH_MODAL
+    FAIL_REGISTER
 } from '../actions/types';
 
 const authReducer = (state={}, action) => {
     console.log(action);
     switch (action.type) {
-        // case LOGIN:
-        //     console.log('login', action.payload.message);
-        //     return {
-        //         // token here later
-        //         ...state, message: action.payload.message, isSuccessed: action.payload.success
-        //     };
         case FETCH_USER:
             console.log('fetch user', action.payload);
             return {
@@ -42,14 +36,10 @@ const authReducer = (state={}, action) => {
             return {
                 ...state, messageLogin: action.payload.message
             };
-        // case SWITCH_MODAL:
-        //     return {
-        //         ...state, is_login_modal: !state.is_login_modal, is_register_modal: !state.is_register_modal
-        //     }
-        // case SWITCH_MODAL:
-        //     return {
-        //         ...state, is_login_modal: !state.is_login_modal, is_register_modal: !state.is_register_modal
-        //     }
+        case FAIL_REGISTER:
+            return {
+                ...state, messageRegister: action.payload.message
+            };
         default:
             return state;
     }

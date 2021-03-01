@@ -10,4 +10,4 @@ export const OPEN_LOGIN = "OPEN_LOGIN";
 export const CLOSE_LOGIN = "CLOSE_LOGIN";
 export const SUCCESSFUL_LOGIN = "SUCCESSFUL_LOGIN";
 export const FAIL_LOGIN = "FAIL_LOGIN";
-export const SWITCH_MODAL = "SWITCH_MODAL";
+export const FAIL_REGISTER = "FAIL_REGISTER";

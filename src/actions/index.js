@@ -2,7 +2,7 @@ import axios from 'axios';
 import { FETCH_USER, LOGIN, FETCH_CITIES,
     CITY_INIT, OPEN_REGISTER, CLOSE_REGISTER,
     OPEN_LOGIN, CLOSE_LOGIN, SUCCESSFUL_LOGIN,
-    FAIL_LOGIN, SWITCH_MODAL
+    FAIL_LOGIN, FAIL_REGISTER
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -16,6 +16,15 @@ export const login = (username, password) => async dispatch => {
         dispatch({ type: SUCCESSFUL_LOGIN, payload: res.data });
     } else {
         dispatch({ type: FAIL_LOGIN, payload: res.data });
+    }
+};
+
+export const register = (username, password, firstName, lastName, email, confirmation) => async dispatch => {
+    const res = await axios.post('/auth/signup', {username, password, firstName, lastName, email, confirmation});
+    if (res.data.user) {
+        dispatch({ type: FAIL_LOGIN, payload: res.data });
+    } else {
+        dispatch({ type: FAIL_REGISTER, payload: res.data });
     }
 };
 
@@ -36,7 +45,6 @@ export const closeLoginModal = () => dispatch => {
 };
 
 export const switchModalAction = (currentModal) => dispatch => {
-    console.log("called")
     if (currentModal === "login") {
         dispatch({ type: OPEN_REGISTER});
     }
