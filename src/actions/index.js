@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { FETCH_USER, LOGIN, FETCH_CITIES, CITY_INIT } from './types';
+import { FETCH_USER, LOGIN, FETCH_CITIES,
+    CITY_INIT, OPEN_REGISTER, CLOSE_REGISTER,
+    OPEN_LOGIN, CLOSE_LOGIN, SUCCESSFUL_LOGIN,
+    FAIL_LOGIN
+} from './types';
 
 export const fetchUser = () => async dispatch => {
         const res = await axios.get('/auth/current_user');
@@ -8,24 +12,27 @@ export const fetchUser = () => async dispatch => {
 
 export const login = (username, password) => async dispatch => {
     const res = await axios.post('/auth/login', {username, password});
-    console.log(res);
-    dispatch({ type: LOGIN, payload: res.data});
+    if (res.data.user) {
+        dispatch({ type: SUCCESSFUL_LOGIN, payload: res.data });
+    } else {
+        dispatch({ type: FAIL_LOGIN, payload: res.data });
+    }
 };
 
 export const openRegisterModal = () => dispatch => {
-    dispatch({ type: "OPEN_REGISTER"});
+    dispatch({ type: OPEN_REGISTER});
 };
 
 export const closeRegisterModal = () => dispatch => {
-    dispatch({ type: "CLOSE_REGISTER"});
+    dispatch({ type: CLOSE_REGISTER});
 };
 
 export const openLoginModal = () => dispatch => {
-    dispatch({ type: "OPEN_LOGIN"});
+    dispatch({ type: OPEN_LOGIN});
 };
 
 export const closeLoginModal = () => dispatch => {
-    dispatch({ type: "CLOSE_LOGIN"});
+    dispatch({ type: CLOSE_LOGIN});
 };
 
 export const fetchTop10Cities = () => async dispatch => {

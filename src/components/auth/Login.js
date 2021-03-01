@@ -87,7 +87,7 @@ class LoginModal extends Component {
             </div>
           </Modal.Header>
           <Modal.Body>
-            {!this.props.isSuccessed && this.state.flag ? messageError : null}
+            {this.props.message ? messageError : null}
             <form onSubmit={this.handleFormSubmit} className="login-form ml-5 mr-5" id="loginForm">
               <div className="input-group form-group">
                 <div className="input-group-prepend">
@@ -135,10 +135,11 @@ class LoginModal extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.auth.messageLogin);
   return { isSuccessed: state.auth.isSuccessed,
-    message: state.auth.message,
+    message: state.auth.messageLogin,
     isModalOpen: state.auth.is_login_modal
   };
 }
 
-export default connect(mapStateToProps, { closeLoginModal })(LoginModal);
+export default connect(mapStateToProps, { login, closeLoginModal })(LoginModal);
