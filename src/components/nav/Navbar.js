@@ -1,9 +1,25 @@
 import React from "react";
 import "./Navbar.css";
-import LoginModal from '../auth/LoginModal';
+import LoginModal from '../auth/Login';
+import SignupModal from '../auth/SignupModal';
 import logo from './logo_transparent.png';
+import { openRegisterModal, openLoginModal } from '../../actions';
+import { connect } from 'react-redux';
 
 class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.openModal = this.openModal.bind(this);
+  }
+
+  openModal(modal) {
+    if (modal === "register") {
+      this.props.openRegisterModal();
+    } else {
+      this.props.openLoginModal();
+    }
+  }
+
   render() {
     return (
       <nav className="navbar navbar-expand-md navbar-light bg-warning">
@@ -16,6 +32,9 @@ class Navbar extends React.Component {
           <ul className="navbar-nav ml-auto">
             <li className="nav-item mr-3">
               <LoginModal />
+              <SignupModal />
+              <button onClick={() => this.openModal("register")}>Register</button>
+              <button onClick={() => this.openModal("login")}>Login</button>
             </li>
           </ul>
         </div>
@@ -30,7 +49,8 @@ class Navbar extends React.Component {
   }
 }
 
-export default Navbar;
+// export default Navbar;
+export default connect(null, { openRegisterModal, openLoginModal })(Navbar);
 
 {
   /* <nav class="nav-bar bg-warning">

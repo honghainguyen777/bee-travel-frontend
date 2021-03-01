@@ -7,6 +7,8 @@ import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import logo from '../nav/logo_transparent.png';
 import { login } from '../../actions';
 
+import SignupModal from './SignupModal';
+
 class LoginModal extends Component {
   constructor(props) {
     super(props);
@@ -14,12 +16,14 @@ class LoginModal extends Component {
       show: false,
       username: "",
       password: "",
-      flag: false
+      flag: false,
+      switch: false
     };
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.switchModal = this.switchModal.bind(this);
   }
 
   handleClose() {
@@ -27,7 +31,7 @@ class LoginModal extends Component {
   }
 
   handleShow() {
-    this.setState({show: true, flag: false});
+    this.setState({show: true, flag: false, switch: false});
   }
 
   handleFormSubmit(event) {
@@ -47,6 +51,10 @@ class LoginModal extends Component {
     console.log("next props", nextProps.isSuccessed);
     console.log("previous props", prevState);
     return null;
+  }
+
+  switchModal() {
+    this.setState({show: false, switch: true});
   }
 
   render() {
@@ -98,19 +106,21 @@ class LoginModal extends Component {
               </div>
             </form>
           </Modal.Body>
-          <div class="row m-0 p-0">
-          <div class="col-4">
+          <div className="row m-0 p-0">
+          <div className="col-4">
             <hr />
           </div>
-          <div class="col-4 text-center">
+          <div className="col-4 text-center">
             <p>Or</p>
           </div>
-          <div class="col-4">
+          <div className="col-4">
             <hr />
           </div>
         </div>
         <div className="d-flex justify-content-center">
-        <button type="button" class="btn btn-secondary btn-register mb-3" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">New Account</button>
+        {/* <SignupModal /> */}
+        <button type="button" onClick={this.switchModal} className="btn btn-secondary btn-register mb-3">New Account</button>
+        { this.state.switch ? <SignupModal switch={this.state.switch}/> : null}
         </div>
           {/* <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>

@@ -12,6 +12,22 @@ export const login = (username, password) => async dispatch => {
     dispatch({ type: LOGIN, payload: res.data});
 };
 
+export const openRegisterModal = () => dispatch => {
+    dispatch({ type: "OPEN_REGISTER"});
+};
+
+export const closeRegisterModal = () => dispatch => {
+    dispatch({ type: "CLOSE_REGISTER"});
+};
+
+export const openLoginModal = () => dispatch => {
+    dispatch({ type: "OPEN_LOGIN"});
+};
+
+export const closeLoginModal = () => dispatch => {
+    dispatch({ type: "CLOSE_LOGIN"});
+};
+
 export const fetchTop10Cities = () => async dispatch => {
     const res = await axios.get('/search/searchInit');
     dispatch({ type: CITY_INIT, payload: res.data});
