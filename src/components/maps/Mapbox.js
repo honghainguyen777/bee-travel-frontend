@@ -1,11 +1,17 @@
 import React from 'react';
-import mapboxgl from "mapbox-gl";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import "./Mapbox.css";
-// import * as actions from '../actions';
 import { fetchTop10Cities, fetchCities } from '../../actions';
 import Search from './Search';
+
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+mapboxgl.accessToken = 'pk.eyJ1Ijoiam5yZG1ubiIsImEiOiJja2wxN3VtY28zaDdlMm5xbjV5Znh0YnBpIn0.s0Cz8vhJe3T1N2wvocwFzw';
+
+
+
 
 class Mapbox extends React.Component {
     constructor(props) {
@@ -19,11 +25,11 @@ class Mapbox extends React.Component {
         this.mapDragTo = this.mapDragTo.bind(this);
         this.map = null;
         this.markers = [];
+        this.mapContainer = React.createRef();
     }
       // for each city
       divGenerator (city, index) {
         let cardColor = index%2===0 ? "card-color-1" : "card-color-2";
-        // console.log(city.loc.coordinates);
         return (
           <div key={city._id} className={`card-city row ${cardColor} mb-1`}>
             <div className="col-8">
@@ -42,6 +48,7 @@ class Mapbox extends React.Component {
         );
       }
     generateMarker(longitude, latitude, map) {
+      console.log("map", map)
         const marker = new mapboxgl.Marker({
           scale: 1,
           color: 'red',
@@ -49,8 +56,6 @@ class Mapbox extends React.Component {
           .setLngLat([longitude, latitude])
           .addTo(map);
         this.markers.push(marker);
-        // markersCopy.push(marker)
-        // this.setState(() => ({markers: markersCopy}));
       }
     
     mapLookup(event) {
@@ -68,10 +73,11 @@ class Mapbox extends React.Component {
         this.markers.forEach(marker => marker.remove());
     }
 
+    
+
     componentDidMount() {
-        mapboxgl.accessToken = 'pk.eyJ1Ijoiam5yZG1ubiIsImEiOiJja2wxN3VtY28zaDdlMm5xbjV5Znh0YnBpIn0.s0Cz8vhJe3T1N2wvocwFzw';
         this.map = new mapboxgl.Map({
-            container: 'map',
+            container: this.mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11', // style URL
             center: [13.4, 13.4], // starting position [lng, lat]
             zoom: 1, // starting zoom
@@ -80,11 +86,10 @@ class Mapbox extends React.Component {
         const nav = new mapboxgl.NavigationControl();
         this.map.addControl(nav, 'top-left');
         this.props.fetchTop10Cities()
-        // this.initializeMap();
     }
 
     render() {
-        console.log(this.props)
+
         return(
             <div className=" m-2">
                 <Search />
@@ -93,12 +98,12 @@ class Mapbox extends React.Component {
                     <div className="col-lg-6 col-sm-12" id="search-result">
                         { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
                         { this.props.searched ? this.removeAllPreviousMarkers() : "" }
-                        {!this.props.cities ? "" : this.props.cities.map((city, index) => {
+                        {!this.props.cities || !this.map ? "" : this.props.cities.map((city, index) => {
                             this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
                             return this.divGenerator(city, index);
                         })}
                     </div>
-                    <div id='map' className="col-lg-6 col-sm-12 pl-0"></div>
+                    <div id='map' ref={this.mapContainer} className="col-lg-6 col-sm-12 pl-0"></div>
 
                 </div>
             </div>

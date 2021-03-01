@@ -22,7 +22,24 @@ class City extends React.Component {
     if (!this.props.city) return <h1>Loading</h1>;
     return (
       <div className="container d-flex justify-content-center flex-column align-items-center">
-        <h1 className="text-center">{this.props.city.name} details</h1>
+      <h1 className="text-center">{this.props.city.name} details</h1>
+       <div className="d-flex align-items-center">
+            <button type="button" className="btn btn-primary m-3" data-toggle="modal" data-target="#visitedModal"><i
+                className="fas fa-user-plus fa-lg"></i><span className="md-hidden d-inline"> Visited? Add to History</span></button>
+            <button type="button" className="btn btn-primary m-3" data-toggle="modal" data-target="#planningModal">
+                <i className="fas fa-user-plus fa-lg"></i>
+                <span className="md-hidden d-inline"> Not Yet? Plan to Visit</span>
+            </button>
+            <form action="/favorites" method="post">
+                {/* <input type="hidden" name="id" value="{{city._id}}" />
+                <input type="hidden" name="image" value="{{imageUrl}}" /> */}
+                <button type="submit" className="btn btn-primary m-3"><span className="md-hidden d-inline"> Add to Favorites</span></button>
+            </form>
+        </div>
+        <h2>Country: {this.props.city.country}</h2>
+        <h4>Population: {this.props.city.population} citizens</h4>
+        <h5 className="text-center" style={{width: "70%"}}><div dangerouslySetInnerHTML={{__html:this.props.summary}} /></h5>
+        <h3 className="text-center">{this.props.city.name} weather</h3>
         <div className="container-weather">
           <div
             className="weather-side"
@@ -44,7 +61,7 @@ class City extends React.Component {
             <div className="weather-container">
               <i className="weather-icon" data-feather="sun"></i>
               <h1 className="weather-temp">
-                {this.props.currentWeather.main.temp}°C
+                {Math.round(this.props.currentWeather.main.temp)}°C
               </h1>
               <h3 className="weather-desc">
                 {this.props.currentWeather.weather[0].main}
@@ -112,21 +129,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { fetchCity })(City);
-
-//   <h2>Country: {{city.country}}</h2>
-//                 <h4>Population: {{city.population}} citizens</h4>
-//                 <h5 class="text-center" style="width: 70%">{{{summary}}}</h5>
-//                 {{#if username}}
-//                 <div class="d-flex align-items-center">
-//                     <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#visitedModal"><i
-//                     class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Visited? Add to History</span></a></button>
-//                 <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#planningModal"><i
-//                     class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Not Yet? Plan to Visit</span></a></button>
-
-//                     <form action="/favorites" method="post">
-//                     <input type="hidden" name="id" value="{{city._id}}">
-//                     <input type="hidden" name="image" value="{{imageUrl}}">
-//                     <button type="submit" class="btn btn-primary m-3"><span class="md-hidden d-inline"> Add to Favorites</span></a></button>
-//                     {{!-- <button type="submit">Add to Favorites</button> --}}
-//                     </form>
-//                 </div>

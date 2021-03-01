@@ -6,6 +6,7 @@ import Mapbox from './maps/Mapbox';
 import Navbar from './nav/Navbar';
 import "./App.css";
 import City from './cityDetail/City';
+// const BrowserHistory = require('react-router/lib/BrowserHistory').default;
 
 const Home = () => <h1>Home Page</h1>;
 const Search = () => <h1>Search</h1>;

@@ -14,10 +14,10 @@ class TempWeekList extends React.Component {
             // index = Number(index);
             let status = (index === 0) ? "active" : "";
             return (
-                <li class={status}>
-                    <img class="day-icon" src={this.props.temps7Days.icons[index]} alt={this.props.temps7Days.weathers[index]} />
-                    <span class="day-name">{day}</span>
-                    <span class="day-temp">{Math.round(this.props.temps7Days.tempsNight[index])}°C</span>
+                <li key={index} className={status}>
+                    <img className="day-icon" src={this.props.temps7Days.icons[index]} alt={this.props.temps7Days.weathers[index]} />
+                    <span className="day-name">{day}</span>
+                    <span className="day-temp">{Math.round(this.props.temps7Days.tempsNight[index])}°C</span>
                 </li>
             )
         });
