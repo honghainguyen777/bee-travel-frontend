@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import "./City.css";
 import TemChart from './TemChart';
 import TempWeekList from './TempWeekList';
+import VisitedModal from './VisitedModal';
 
 class City extends React.Component {
   constructor(props) {
@@ -24,8 +25,7 @@ class City extends React.Component {
       <div className="container d-flex justify-content-center flex-column align-items-center">
       <h1 className="text-center">{this.props.city.name} details</h1>
        <div className="d-flex align-items-center">
-            <button type="button" className="btn btn-primary m-3" data-toggle="modal" data-target="#visitedModal"><i
-                className="fas fa-user-plus fa-lg"></i><span className="md-hidden d-inline"> Visited? Add to History</span></button>
+            <VisitedModal cityId={this.cityId} />
             <button type="button" className="btn btn-primary m-3" data-toggle="modal" data-target="#planningModal">
                 <i className="fas fa-user-plus fa-lg"></i>
                 <span className="md-hidden d-inline"> Not Yet? Plan to Visit</span>
@@ -38,7 +38,7 @@ class City extends React.Component {
         </div>
         <h2>Country: {this.props.city.country}</h2>
         <h4>Population: {this.props.city.population} citizens</h4>
-        <h5 className="text-center" style={{width: "70%"}}><div dangerouslySetInnerHTML={{__html:this.props.summary}} /></h5>
+        <h5 className="text-left" style={{width: "70%"}}><div dangerouslySetInnerHTML={{__html:this.props.summary}} /></h5>
         <h3 className="text-center">{this.props.city.name} weather</h3>
         <div className="container-weather">
           <div

@@ -3,7 +3,8 @@ import { FETCH_USER, LOGIN, FETCH_CITIES,
     CITY_INIT, OPEN_REGISTER, CLOSE_REGISTER,
     OPEN_LOGIN, CLOSE_LOGIN, SUCCESSFUL_LOGIN,
     FAIL_LOGIN, FAIL_REGISTER, FETCH_CITY,
-    FETCH_7DAYS_WEATHER
+    FETCH_7DAYS_WEATHER, SUBMIT_VISITED_FORM,
+    CITY_REDIRECT
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -75,3 +76,14 @@ export const fetch7DayForcast = (id) => async dispatch => {
     const res = await axios.get(`/details/${id}/7days`);
     dispatch({ type: FETCH_7DAYS_WEATHER, payload: res.data})
 };
+
+export const submitVisitedForm = ({fromDate, toDate, travellersNum, cost, summary, rating, image, cityId}) => async dispatch => {
+    const res = await axios.post(`/visited/${cityId}`, {
+        fromDate, toDate, travellersNum, cost, summary, rating, image
+    });
+    dispatch({ type: SUBMIT_VISITED_FORM , payload: res.data});
+};
+
+export const cityFormRedirect = () => dispatch => {
+    dispatch({ type: CITY_REDIRECT });
+}

@@ -10,7 +10,7 @@ import City from './cityDetail/City';
 
 const Home = () => <h1>Home Page</h1>;
 const Search = () => <h1>Search</h1>;
-// const Signup = () => <h1>Signup</h1>;
+const Memory = () => <h1>Memory</h1>;
 // const CityDetail = () => <h1>CityDetail</h1>;
 // const FavoriteCity = () => <h1>FavoriteCity</h1>;
 
@@ -34,9 +34,11 @@ class App extends React.Component {
                 <BrowserRouter>
                     <div>
                         <Route exact path="/" component={Home} />
-                        <Route path="/search" component={Search} />
-                        <Route path="/map" component={Mapbox} />
-                        <Route path="/details/:id" component={City} />
+                        <Route exact path="/search" component={Search} />
+                        <Route exact path="/map" component={Mapbox} />
+                        <Route exact path="/details/:id" component={City} />
+                        <Route exact path="/memories/:id" component={Memory} />
+                        
                     </div>
                 </BrowserRouter>
             </div>
