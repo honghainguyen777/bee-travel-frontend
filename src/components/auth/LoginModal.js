@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import "./Login.css";
+import "./Auth.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import logo from '../nav/logo_transparent.png';
 import { login, closeLoginModal, switchModalAction } from '../../actions';
-
-
-import SignupModal from './SignupModal';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -83,11 +80,11 @@ class LoginModal extends Component {
               </div>
               <div className="input-group form-group">
                 <div className="input-group-prepend">
-                  <span className="input-group-text"><i class="fa fa-key field-icon"></i></span>
+                  <span className="input-group-text"><i className="fa fa-key field-icon"></i></span>
                 </div>
                 <input onChange={this.handleChange} value={this.state.password} type="password" name="password" className="form-control" placeholder="password" required />
               </div>
-              <div class="form-group text-center mb-0">
+              <div className="form-group text-center mb-0">
                 <button className="btn btn-login">Log In</button>
               </div>
             </form>

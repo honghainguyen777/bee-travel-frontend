@@ -2,7 +2,8 @@ import axios from 'axios';
 import { FETCH_USER, LOGIN, FETCH_CITIES,
     CITY_INIT, OPEN_REGISTER, CLOSE_REGISTER,
     OPEN_LOGIN, CLOSE_LOGIN, SUCCESSFUL_LOGIN,
-    FAIL_LOGIN, FAIL_REGISTER
+    FAIL_LOGIN, FAIL_REGISTER, FETCH_CITY,
+    FETCH_7DAYS_WEATHER
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -61,4 +62,16 @@ export const fetchTop10Cities = () => async dispatch => {
 export const fetchCities = (query) => async dispatch => {
     const res = await axios.post('/search', {query});
     dispatch({ type: FETCH_CITIES, payload: res.data});
+};
+
+
+// city details
+export const fetchCity = (id) => async dispatch => {
+    const res = await axios.get(`/details/${id}`);
+    dispatch({ type: FETCH_CITY, payload: res.data});
+};
+
+export const fetch7DayForcast = (id) => async dispatch => {
+    const res = await axios.get(`/details/${id}/7days`);
+    dispatch({ type: FETCH_7DAYS_WEATHER, payload: res.data})
 };

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import "./Login.css";
+import "./Auth.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faKey, faSignInAlt, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import logo from '../nav/logo_transparent.png';
 import { login, register, closeRegisterModal, switchModalAction } from '../../actions';
-import "./Login.css";
 
 
 class RegisterModal extends Component {

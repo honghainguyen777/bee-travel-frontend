@@ -11,3 +11,7 @@ export const CLOSE_LOGIN = "CLOSE_LOGIN";
 export const SUCCESSFUL_LOGIN = "SUCCESSFUL_LOGIN";
 export const FAIL_LOGIN = "FAIL_LOGIN";
 export const FAIL_REGISTER = "FAIL_REGISTER";
+
+// city details
+export const FETCH_CITY = "FETCH_CITY";
+export const FETCH_7DAYS_WEATHER = "FETCH_7DAYS_WEATHER";

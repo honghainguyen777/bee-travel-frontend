@@ -5,6 +5,7 @@ import * as actions from '../actions';
 import Mapbox from './maps/Mapbox';
 import Navbar from './nav/Navbar';
 import "./App.css";
+import City from './cityDetail/City';
 
 const Home = () => <h1>Home Page</h1>;
 const Search = () => <h1>Search</h1>;
@@ -34,6 +35,7 @@ class App extends React.Component {
                         <Route exact path="/" component={Home} />
                         <Route path="/search" component={Search} />
                         <Route path="/map" component={Mapbox} />
+                        <Route path="/details/:id" component={City} />
                     </div>
                 </BrowserRouter>
             </div>
