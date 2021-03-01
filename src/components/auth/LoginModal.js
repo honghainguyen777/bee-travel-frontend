@@ -5,7 +5,8 @@ import "./Login.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import logo from '../nav/logo_transparent.png';
-import { login } from '../../actions';
+import { login, closeLoginModal, switchModalAction } from '../../actions';
+
 
 import SignupModal from './SignupModal';
 
@@ -13,13 +14,9 @@ class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
       username: "",
       password: "",
-      flag: false,
-      switch: false
     };
-    this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -27,34 +24,23 @@ class LoginModal extends Component {
   }
 
   handleClose() {
-    this.setState({show: false, flag: false});
-  }
-
-  handleShow() {
-    this.setState({show: true, flag: false, switch: false});
+    this.props.closeLoginModal();
   }
 
   handleFormSubmit(event) {
     event.preventDefault();
     const { username, password } = this.state;
     this.props.login(username, password);
-    this.setState({username: "", password: "", flag: true});
-    // this.setState({username: "", password: ""});
+    this.setState({username: "", password: ""});
   }
 
   handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value, flag: false });
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("next props", nextProps.isSuccessed);
-    console.log("previous props", prevState);
-    return null;
+    this.setState({ [name]: value});
   }
 
   switchModal() {
-    this.setState({show: false, switch: true});
+    this.props.switchModalAction("login");
   }
 
   render() {
@@ -70,12 +56,12 @@ class LoginModal extends Component {
 
     return (
       <>
-        <Button variant="primary" onClick={this.handleShow}>
+        {/* <Button variant="primary" onClick={this.handleShow}>
           <FontAwesomeIcon icon={faSignInAlt} />
           <span className="md-hidden d-inline"> Log In</span>
-        </Button>
+        </Button> */}
         <Modal
-          show={this.state.show}
+          show={this.props.isModalOpen}
           onHide={this.handleClose}
           backdrop="static"
           keyboard={false}
@@ -87,7 +73,7 @@ class LoginModal extends Component {
             </div>
           </Modal.Header>
           <Modal.Body>
-            {!this.props.isSuccessed && this.state.flag ? messageError : null}
+            {this.props.message ? messageError : null}
             <form onSubmit={this.handleFormSubmit} className="login-form ml-5 mr-5" id="loginForm">
               <div className="input-group form-group">
                 <div className="input-group-prepend">
@@ -120,14 +106,7 @@ class LoginModal extends Component {
         <div className="d-flex justify-content-center">
         {/* <SignupModal /> */}
         <button type="button" onClick={this.switchModal} className="btn btn-secondary btn-register mb-3">New Account</button>
-        { this.state.switch ? <SignupModal switch={this.state.switch}/> : null}
         </div>
-          {/* <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Close
-            </Button>
-            <Button variant="primary">Understood</Button>
-          </Modal.Footer> */}
         </Modal>
       </>
     );
@@ -135,7 +114,10 @@ class LoginModal extends Component {
 }
 
 const mapStateToProps = state => {
-  return { isSuccessed: state.auth.isSuccessed, message: state.auth.message };
+  return { isSuccessed: state.auth.isSuccessed,
+    message: state.auth.messageLogin,
+    isModalOpen: state.auth.is_login_modal
+  };
 }
 
-export default connect(mapStateToProps, { login })(LoginModal);
+export default connect(mapStateToProps, { login, closeLoginModal, switchModalAction})(LoginModal);

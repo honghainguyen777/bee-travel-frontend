@@ -19,12 +19,11 @@ class RegisterModal extends Component {
       firstName: "",
       lastName: "",
       email: "",
-      messagePW1: "",
-      messagePW2: "",
+      messagePW: "",
       messageEmail: ""
     };
     this.regexPW = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-    this.regexEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    this.regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     this.handleClose = this.handleClose.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -43,11 +42,11 @@ class RegisterModal extends Component {
     //   return;
     // }
     if (password !== confirmation) {
-      this.setState({ messagePW1: "Passwords do not match!"});
+      this.setState({ messagePW: "Passwords do not match!"});
       return;
     }
     if (!this.regexPW.test(password)) {
-      this.setState({ messagePW2: "Password is not strong (at least 6 chars, one number, one lowercase and one uppercase letter!"});
+      this.setState({ messagePW: "Password is not strong (at least 6 chars, one number, one lowercase and one uppercase letter!"});
       return;
     }
     if (this.regexEmail.test(email)) {
@@ -60,7 +59,7 @@ class RegisterModal extends Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value});
+    this.setState({ [name]: value, messagePW: "", messageEmail: ""});
   }
 
   switchModal() {
@@ -99,49 +98,51 @@ class RegisterModal extends Component {
           <Modal.Body>
             {this.props.message ? messageError : null}
             <form onSubmit={this.handleFormSubmit} className="login-form ml-5 mr-5" id="signupForm">
-            <div class="form-row">
-              <div class="col-md-6 input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text field-icon"><FontAwesomeIcon icon={faUser} /></span>
+            <div className="form-row">
+              <div className="col-md-6 input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faUser} /></span>
                 </div>
-                <input onChange={this.handleChange} value={this.state.firstName} type="text" class="form-control" name="firstName" placeholder="First Name" required />
+                <input onChange={this.handleChange} value={this.state.firstName} type="text" className="form-control" name="firstName" placeholder="First Name" required />
               </div>
-              <div class="col-md-6 input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text field-icon"><FontAwesomeIcon icon={faUser} /></span>
+              <div className="col-md-6 input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faUser} /></span>
                 </div>
-                <input onChange={this.handleChange} value={this.state.lastName} type="text" class="form-control" name="lastName" placeholder="Last Name" required />
+                <input onChange={this.handleChange} value={this.state.lastName} type="text" className="form-control" name="lastName" placeholder="Last Name" required />
               </div>
-              <div class="col-md-12 input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text field-icon"><FontAwesomeIcon icon={faUserPlus} /></span>
+              <div className="col-md-12 input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faUserPlus} /></span>
                 </div>
-                <input onChange={this.handleChange} value={this.state.username} type="text" class="form-control" name="username" placeholder="Username" minLength="6" required />
+                <input onChange={this.handleChange} value={this.state.username} type="text" className="form-control" name="username" placeholder="Username" minLength={6} required />
               </div>
-              <div class="col-md-6 input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text field-icon"><FontAwesomeIcon icon={faKey} /></span>
+              <div className="col-md-6 input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faKey} /></span>
                 </div>
-                <input onChange={this.handleChange} value={this.state.password} type="password" name="password" class="form-control" placeholder="Password" required />
+                <input onChange={this.handleChange} value={this.state.password} type="password" name="password" className="form-control" placeholder="Password" required />
               </div>
-              <div class="col-md-6 input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text field-icon"><FontAwesomeIcon icon={faKey} /></span>
+              <div className="col-md-6 input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faKey} /></span>
                 </div>
-                <input onChange={this.handleChange} value={this.state.confirmation} type="password" name="confirmation" class="form-control" placeholder="Confirmation" required />
+                <input onChange={this.handleChange} value={this.state.confirmation} type="password" name="confirmation" className="form-control" placeholder="Confirmation" required />
               </div>
-              <div class="col-md-12 input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text field-icon"><FontAwesomeIcon icon={faEnvelope} /></span>
+              {this.state.messagePW ? <div className="alert alert-warning col-md-12 text-center" role="alert">{this.state.messagePW}</div> : null}
+              <div className="col-md-12 input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faEnvelope} /></span>
                 </div>
-                <input type="email" name="email" class="form-control" placeholder="Your email" required />
+                <input type="email" name="email" className="form-control" placeholder="Your email" required />
               </div>
             </div>
-            <div class="justify-content-center pb-2 text-center">
-              <input type="checkbox" class="mr-3" required />I agree to the term of use
+            {this.state.messageEmail ? <div className="alert alert-warning col-md-12 text-center" role="alert">{this.state.messageEmail}</div> : null}
+            <div className="justify-content-center pb-2 text-center">
+              <input type="checkbox" className="mr-3" required />I agree to the term of use
             </div>
-            <div class="form-group text-center">
-              <button type="submit" class="btn btn-register">Register</button>
+            <div className="form-group text-center">
+              <button type="submit" className="btn btn-register">Register</button>
             </div>
           </form>
 

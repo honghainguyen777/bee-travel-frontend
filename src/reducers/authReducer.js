@@ -30,7 +30,7 @@ const authReducer = (state={}, action) => {
                 };
         case SUCCESSFUL_LOGIN:
             return {
-                ...state, user: action.payload.user, is_login_modal: false, is_register_modal: false, messageLogin: null
+                ...state, user: action.payload.user, is_login_modal: false, is_register_modal: false, messageLogin: null, messageRegister: null
             };
         case FAIL_LOGIN:
             return {
