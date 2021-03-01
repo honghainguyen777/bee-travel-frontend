@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import "./City.css";
 import Chart from 'chart.js';
 
-class Forcast extends React.Component {
+class TemChart extends React.Component {
   constructor(props) {
     super(props);
     this.chartRef = React.createRef();
@@ -62,4 +62,4 @@ const mapStateToProps = state => {
   return { temps7Days, message };
 }
 
-export default connect(mapStateToProps, { fetch7DayForcast })(Forcast);
+export default connect(mapStateToProps, { fetch7DayForcast })(TemChart);

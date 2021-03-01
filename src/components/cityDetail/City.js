@@ -2,7 +2,8 @@ import React from "react";
 import { fetchCity } from "../../actions";
 import { connect } from "react-redux";
 import "./City.css";
-import Forcast from './Forcast';
+import TemChart from './TemChart';
+import TempWeekList from './TempWeekList';
 
 class City extends React.Component {
   constructor(props) {
@@ -75,7 +76,8 @@ class City extends React.Component {
                 width="500"
                 height="200"
               ></canvas> */}
-              <Forcast cityId={this.cityId}/>
+              <TemChart cityId={this.cityId}/>
+              <TempWeekList />
             </div>
             <div className="week-container">
               <ul className="week-list mt-0" id="week-list"></ul>
