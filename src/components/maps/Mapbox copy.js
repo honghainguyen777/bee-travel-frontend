@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import "./Mapbox.css";
 import { fetchTop10Cities, fetchCities } from '../../actions';
 import Search from './Search';
-import Sidebar from './Sidebar';
 
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -19,7 +18,6 @@ class Mapbox extends React.Component {
         super(props);
         this.state = {
             query: "",
-            contentContainerWidth: 0,
         };
         this.generateMarker = this.generateMarker.bind(this);
         this.divGenerator = this.divGenerator.bind(this);
@@ -28,13 +26,12 @@ class Mapbox extends React.Component {
         this.map = null;
         this.markers = [];
         this.mapContainer = React.createRef();
-        this.contentContainer = React.createRef();
     }
       // for each city
       divGenerator (city, index) {
         let cardColor = index%2===0 ? "card-color-1" : "card-color-2";
         return (
-          <div key={city._id} className={`card-city row ${cardColor} mb-1 mr-2`}>
+          <div key={city._id} className={`card-city row ${cardColor} mb-1`}>
             <div className="col-8">
               <h4 className="text-white">{city.name}</h4>
               <h5>{city.country}</h5>
@@ -87,50 +84,32 @@ class Mapbox extends React.Component {
             doubleClickZoom: true,
           });
         const nav = new mapboxgl.NavigationControl();
-        this.map.addControl(nav, 'top-right');
-        this.props.fetchTop10Cities();
-        const contentContainerWidth = this.contentContainer.current.offsetWidth;
-        if (contentContainerWidth < 1000) {
-          contentContainerWidth = 1000;
-        }
-        this.setState({contentContainerWidth: contentContainerWidth});
+        this.map.addControl(nav, 'top-left');
+        this.props.fetchTop10Cities()
     }
 
     render() {
-        console.log(this.state.contentContainerWidth)
+
         return(
-            <div className=" m-2" className="container-city" ref={this.contentContainer}>
+            <div className=" m-2">
                 <Search />
-                {/* <h3 className="text-center">Favorite cities in the world</h3> */}
-                    {/* <div className="cityListWrapper" id="search-result">
+                <h3 className="text-center">Favorite cities in the world</h3>
+                <div className="row m-0 container-city">
+                    <div className="col-lg-6 col-sm-12" id="search-result">
                         { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
                         { this.props.searched ? this.removeAllPreviousMarkers() : "" }
                         {!this.props.cities || !this.map ? "" : this.props.cities.map((city, index) => {
                             this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
                             return this.divGenerator(city, index);
                         })}
-                    </div> */}
-                    { !this.state.contentContainerWidth ? null :
-                      <Sidebar width={this.state.contentContainerWidth * 0.4} height={"100vh"}>
-                        { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
-                        { this.props.searched ? this.removeAllPreviousMarkers() : "" }
-                        {!this.props.cities || !this.map ? "" : this.props.cities.map((city, index) => {
-                            this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
-                            return this.divGenerator(city, index);
-                        })}
-                    </Sidebar>
-                    }
-                    <div id='map' ref={this.mapContainer} className="pl-0"></div>
+                    </div>
+                    <div id='map' ref={this.mapContainer} className="col-lg-6 col-sm-12 pl-0"></div>
+
+                </div>
             </div>
         )
     }
 }
-
-
-// <div className="cityListWrapper">
-  
-//</div>
-
 
 const mapStateToProps = state => {
     return { cities: state.map.cities, searched: state.map.searched };
