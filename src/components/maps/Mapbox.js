@@ -5,6 +5,7 @@ import "./Mapbox.css";
 import { fetchTop10Cities, fetchCities } from '../../actions';
 import Search from './Search';
 import Sidebar from './Sidebar';
+import empty_heart from './empty_heart.png';
 
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -30,22 +31,24 @@ class Mapbox extends React.Component {
         this.mapContainer = React.createRef();
         this.contentContainer = React.createRef();
     }
-      // for each city
       divGenerator (city, index) {
-        let cardColor = index%2===0 ? "card-color-1" : "card-color-2";
         return (
-          <div key={city._id} className={`card-city row ${cardColor} mb-1 mr-2`}>
-            <div className="col-8">
-              <h4 className="text-white">{city.name}</h4>
-              <h5>{city.country}</h5>
+          <div key={city._id} className={`card-city row ml-3 mr-1 mt-3`}>
+            <div className="city-header w-100 d-flex justify-content-between align-items-center px-3 py-1">
+              <Link className="city-header-name" to={`/details/${city._id}`}><h4>{city.name}</h4></Link>
+              <img className="heart" src={empty_heart} alt="empty heart"/>
             </div>
-            <div className="col-4 d-flex justify-content-end">
+            <div className="city-body px-3 w-100">
+              <p className="m-0">Country: {city.country}</p>
+              <p className="m-0">Population: {city.population} people</p>
+            </div>
+            <div className="d-flex justify-content-end align-items-center w-100">
                 <form onSubmit={this.mapLookup}>
                     <input type="hidden" name="long" value={city.loc.coordinates[0]}/>
                     <input type="hidden" name="lat" value={city.loc.coordinates[1]}/>
-                    <button className="link-btn btn-view">Map</button>
+                    <button className="test">View on Map</button>
                 </form>
-              <Link to={`/details/${city._id}`} className="link-btn btn-view">Detail</Link>
+              <Link to={`/details/${city._id}`} className="test">City Weather</Link>
             </div>
           </div>
         );
@@ -101,15 +104,6 @@ class Mapbox extends React.Component {
         return(
             <div className=" m-2" className="container-city" ref={this.contentContainer}>
                 <Search />
-                {/* <h3 className="text-center">Favorite cities in the world</h3> */}
-                    {/* <div className="cityListWrapper" id="search-result">
-                        { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
-                        { this.props.searched ? this.removeAllPreviousMarkers() : "" }
-                        {!this.props.cities || !this.map ? "" : this.props.cities.map((city, index) => {
-                            this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
-                            return this.divGenerator(city, index);
-                        })}
-                    </div> */}
                     { !this.state.contentContainerWidth ? null :
                       <Sidebar width={this.state.contentContainerWidth * 0.4} height={"100vh"}>
                         { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
@@ -125,11 +119,6 @@ class Mapbox extends React.Component {
         )
     }
 }
-
-
-// <div className="cityListWrapper">
-  
-//</div>
 
 
 const mapStateToProps = state => {
