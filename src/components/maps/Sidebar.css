@@ -19,6 +19,8 @@
 }
 
 .toggle-menu {
+    /* top: calc(100%-100px); */
+    top: calc(40% - 100px);
     height: 200px;
     border-top-right-radius: 10rem;
     border-bottom-right-radius: 9rem;

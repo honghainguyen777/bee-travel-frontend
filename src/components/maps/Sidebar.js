@@ -22,11 +22,32 @@ class Sidebar extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.letSideBarClose) {
+        if (this.state.xPosition === 0) {
+            console.log("closed");
+            this.props.isSideBarClosed();
+            this.toggleMenu ();
+        } else {
+            this.toggleMenu ();
+        }
+    }
+    if (this.props.letSideBarOpen) {
+        if (this.state.xPosition < 0) {
+            console.log("opened");
+            this.props.isSideBarOpened();
+            this.toggleMenu ();
+        } else {
+            this.toggleMenu ();
+        }
+    }
+  }
+
   componentDidMount() {
       this.setState({xPosition: -this.props.width});
   }
+
   render() {
-    console.log(this.state.xPosition);
     return (
         <React.Fragment>
           <div
@@ -37,7 +58,7 @@ class Sidebar extends React.Component {
               minHeight: this.props.height
             }}
           >
-            <div className="content">{this.props.children}</div>
+            <div className="content pb-5 mb-1">{this.props.children}</div>
           </div>
           <div
               onClick={this.toggleMenu}

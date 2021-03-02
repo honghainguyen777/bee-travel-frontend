@@ -4,7 +4,7 @@
     right: 0;
     left: 0;
     bottom: 0;
-    z-index: -1;
+    z-index: 0;
 }
 
 .card-city {
@@ -15,7 +15,9 @@
 }
 
 #search-form {
+    position: absolute;
     z-index: 1;
+    width: 100%;
 }
 
 #search-form input {
