@@ -89,7 +89,7 @@ class Mapbox extends React.Component {
         const nav = new mapboxgl.NavigationControl();
         this.map.addControl(nav, 'top-right');
         this.props.fetchTop10Cities();
-        const contentContainerWidth = this.contentContainer.current.offsetWidth;
+        let contentContainerWidth = this.contentContainer.current.offsetWidth;
         if (contentContainerWidth < 1000) {
           contentContainerWidth = 1000;
         }

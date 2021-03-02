@@ -27,11 +27,17 @@
     outline: none;
     z-index: 2;
     transition: 0.8s ease;
-    background-color: rgba(64, 194, 133, 0.693) !important;
-    border-color: rgba(64, 194, 133, 0.693);
+    background-image: linear-gradient(to bottom, rgba(255, 128, 8, 0.7) 0%, rgba(255, 200, 55, 0.7) 51%, rgba(255, 128, 8, 0.7)  100%);
+    border: none;
     border-left: 0;
 }
 
 /* .side-bar::-webkit-scrollbar {
     display: none;
 } */
+
+.text-in-menu {
+    writing-mode: vertical-rl;
+    color: white;
+    font-weight: bold;
+}
