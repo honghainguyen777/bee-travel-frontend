@@ -4,6 +4,7 @@
     right: 0;
     left: 0;
     bottom: 0;
+    z-index: -1;
 }
 
 .card-city {
@@ -13,17 +14,14 @@
     box-shadow: 7px 6px 36px -15px rgb(109 109 151 / 40%);
 }
 
+#search-form {
+    z-index: 1;
+}
+
 #search-form input {
     width: 400px;
 }
 
-.card-color-1 {
-    background-color: rgb(130, 171, 158)
-}
-
-.card-color-2 {
-    background-color: rgb(171, 169, 130)
-}
 
 .container-city {
     width: 100%;
@@ -49,7 +47,7 @@
     cursor: pointer;
 }
 
-.card-city .test {
+.card-city .button-removed {
     border: none;
     background: none;
     background-color: none;
@@ -57,4 +55,12 @@
     font-size: 18px;
     color: black;
     padding: 8px;
+}
+
+.card-city .button-hidden {
+    border: none;
+    background: none;
+    background-color: none;
+    padding: 0;
+    margin: 0;
 }

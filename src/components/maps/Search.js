@@ -24,8 +24,8 @@ class Search extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.formSubmitHandler} id="search-form" className="form-inline d-flex justify-content-center">
-                <input onChange={this.onChangeHandler} value={this.state.query} className="form-control mr-sm-2" type="text" name="query" id="query" placeholder="Your favorite city" aria-label="Search" required />
+            <form onSubmit={this.formSubmitHandler} id="search-form" className="form-inline d-flex justify-content-center pt-4">
+                <input onChange={this.onChangeHandler} value={this.state.query} className="form-control mr-sm-2 search-bar" type="text" name="query" id="query" placeholder="Your favorite city" aria-label="Search" required />
                 <button className="btn btn-outline-success my-2 my-sm-0">Search</button>
             </form>
         )

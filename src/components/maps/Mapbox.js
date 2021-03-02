@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import "./Mapbox.css";
-import { fetchTop10Cities, fetchCities } from '../../actions';
+import { fetchTop10Cities, fetchCities, fetchFavoriteCities, addFavoriteCity, deleteFavoriteCity } from '../../actions';
 import Search from './Search';
 import Sidebar from './Sidebar';
 import empty_heart from './empty_heart.png';
+import heart from './heart.png';
 
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -26,17 +27,26 @@ class Mapbox extends React.Component {
         this.divGenerator = this.divGenerator.bind(this);
         this.mapLookup = this.mapLookup.bind(this);
         this.mapDragTo = this.mapDragTo.bind(this);
+        this.favoriteSubmit = this.favoriteSubmit.bind(this);
         this.map = null;
         this.markers = [];
+        this.markersForFavorite = [];
         this.mapContainer = React.createRef();
         this.contentContainer = React.createRef();
     }
-      divGenerator (city, index) {
+      divGenerator (city) {
+        let favorite = this.isFavorite(city._id);
         return (
           <div key={city._id} className={`card-city row ml-3 mr-1 mt-3`}>
             <div className="city-header w-100 d-flex justify-content-between align-items-center px-3 py-1">
               <Link className="city-header-name" to={`/details/${city._id}`}><h4>{city.name}</h4></Link>
-              <img className="heart" src={empty_heart} alt="empty heart"/>
+              <form onSubmit={this.favoriteSubmit}>
+                <input type="hidden" name="cityId" value={city._id}/>
+                <input type="hidden" name="index" value={favorite.index}/>
+                <button className="button-hidden" ref="submitBtn">
+                  {!favorite.check ? <img className="heart" src={empty_heart} alt="empty heart"/> : <img className="heart" src={heart} alt="heart"/>}
+                </button>
+              </form>
             </div>
             <div className="city-body px-3 w-100">
               <p className="m-0">Country: {city.country}</p>
@@ -46,18 +56,18 @@ class Mapbox extends React.Component {
                 <form onSubmit={this.mapLookup}>
                     <input type="hidden" name="long" value={city.loc.coordinates[0]}/>
                     <input type="hidden" name="lat" value={city.loc.coordinates[1]}/>
-                    <button className="test">View on Map</button>
+                    <button className="button-removed" >View on Map</button>
                 </form>
-              <Link to={`/details/${city._id}`} className="test">City Weather</Link>
+              <Link to={`/details/${city._id}`} className="button-removed">City Weather</Link>
             </div>
           </div>
         );
       }
-    generateMarker(longitude, latitude, map) {
+    generateMarker(longitude, latitude, map, color) {
       console.log("map", map)
         const marker = new mapboxgl.Marker({
           scale: 1,
-          color: 'red',
+          color: color,
         })
           .setLngLat([longitude, latitude])
           .addTo(map);
@@ -79,7 +89,31 @@ class Mapbox extends React.Component {
         this.markers.forEach(marker => marker.remove());
     }
 
-    
+    favoriteSubmit(event) {
+      event.preventDefault();
+      const cityId = event.target.cityId.value;
+      const index = event.target.index.value;
+
+      console.log("favorite city id: ", cityId, "at index: ", index);
+      if (index) {
+        this.props.deleteFavoriteCity(cityId, Number(index));
+      } else {
+        this.props.addFavoriteCity(cityId);
+      }
+
+    }
+
+    isFavorite(cityId) {
+      let index;
+      let favorite = this.props.favoriteCities ? this.props.favoriteCities.filter((favoriteCity, i) => {
+        if (favoriteCity._id === cityId) {
+          index = i;
+          return true;
+        }
+        return false;
+      }) : [];
+      return {check: favorite.length === 0 ? false : true, index};
+    }
 
     componentDidMount() {
         this.map = new mapboxgl.Map({
@@ -92,6 +126,7 @@ class Mapbox extends React.Component {
         const nav = new mapboxgl.NavigationControl();
         this.map.addControl(nav, 'top-right');
         this.props.fetchTop10Cities();
+        this.props.fetchFavoriteCities();
         let contentContainerWidth = this.contentContainer.current.offsetWidth;
         if (contentContainerWidth < 1000) {
           contentContainerWidth = 1000;
@@ -108,10 +143,20 @@ class Mapbox extends React.Component {
                       <Sidebar width={this.state.contentContainerWidth * 0.4} height={"100vh"}>
                         { this.props.searched ? this.mapDragTo(this.props.cities[0].loc.coordinates) : ""}
                         { this.props.searched ? this.removeAllPreviousMarkers() : "" }
-                        {!this.props.cities || !this.map ? "" : this.props.cities.map((city, index) => {
-                            this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
-                            return this.divGenerator(city, index);
+                        {!this.props.cities || !this.map ? "" : this.props.cities.map((city) => {
+                            this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map, "red");
+                            return this.divGenerator(city);
+                        })};
+                        {!this.props.favoriteCities ? "" : this.props.favoriteCities.forEach(city => {
+                          this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map, "green");
                         })}
+                        {/* {!this.props.cities || !this.map ? "" : !this.props.favoriteCities? this.props.cities.map((city) => {
+                            this.generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], this.map);
+                            return this.divGenerator(city);
+                        }) : this.props.favoriteCities.map(city => {
+                            this.generateMarker(city.city.loc.coordinates[0], city.city.loc.coordinates[1], this.map);
+                            return this.divGenerator(city.city);
+                        })}; */}
                     </Sidebar>
                     }
                     <div id='map' ref={this.mapContainer} className="pl-0"></div>
@@ -122,8 +167,9 @@ class Mapbox extends React.Component {
 
 
 const mapStateToProps = state => {
-    return { cities: state.map.cities, searched: state.map.searched };
+  console.log(state);
+    return { cities: state.map.cities, searched: state.map.searched, favoriteCities: state.favorite.favoriteCities };
 }
 
 // export default Mapbox;
-export default connect(mapStateToProps, { fetchTop10Cities, fetchCities })(Mapbox);
+export default connect(mapStateToProps, { fetchTop10Cities, fetchCities, fetchFavoriteCities, addFavoriteCity, deleteFavoriteCity })(Mapbox);

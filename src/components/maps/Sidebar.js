@@ -43,7 +43,6 @@ class Sidebar extends React.Component {
               onClick={this.toggleMenu}
               className="toggle-menu d-flex justify-content-center align-items-center"
               style={{
-                // transform: `translate(${this.props.width}px, 20vh)`,
                 transform: `translatex(${this.state.xPosition + this.props.width}px)`
               }}
             ><span className="text-in-menu">View Cites</span></div>

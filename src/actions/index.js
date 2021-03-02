@@ -4,7 +4,8 @@ import { FETCH_USER, LOGIN, FETCH_CITIES,
     OPEN_LOGIN, CLOSE_LOGIN, SUCCESSFUL_LOGIN,
     FAIL_LOGIN, FAIL_REGISTER, FETCH_CITY,
     FETCH_7DAYS_WEATHER, SUBMIT_VISITED_FORM,
-    CITY_REDIRECT
+    CITY_REDIRECT, FETCH_FARVORITE_CITIES, ADDED_FAVORITE_CITY,
+    DELETED_FAVORITE_CITY
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -86,4 +87,23 @@ export const submitVisitedForm = ({fromDate, toDate, travellersNum, cost, summar
 
 export const cityFormRedirect = () => dispatch => {
     dispatch({ type: CITY_REDIRECT });
-}
+};
+
+
+// favorites route
+export const fetchFavoriteCities = () => async dispatch => {
+    const res = await axios.get('/favorites');
+    console.log("haha", res);
+    dispatch({ type: FETCH_FARVORITE_CITIES, payload: res.data });
+};
+
+export const addFavoriteCity = (cityId) => async dispatch => {
+    const res = await axios.post('/favorites', {cityId});
+    if (res.data.success) dispatch({ type: ADDED_FAVORITE_CITY, payload: res.data });
+};
+
+export const deleteFavoriteCity = (cityId, index) => async dispatch => {
+    console.log(cityId);
+    const res = await axios.post('/favorites/delete', {cityId});
+    if (res.data.success) dispatch({ type: DELETED_FAVORITE_CITY, payload: {cityId, index} });
+};
