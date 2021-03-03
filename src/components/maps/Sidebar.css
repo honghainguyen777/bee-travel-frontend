@@ -34,10 +34,6 @@
     border-left: 0;
 }
 
-/* .side-bar::-webkit-scrollbar {
-    display: none;
-} */
-
 .text-in-menu {
     writing-mode: vertical-rl;
     color: white;

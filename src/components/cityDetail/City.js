@@ -5,6 +5,9 @@ import "./City.css";
 import TemChart from './TemChart';
 import TempWeekList from './TempWeekList';
 import VisitedModal from './VisitedModal';
+import PlanningModal from './PlanningModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRoute } from '@fortawesome/free-solid-svg-icons';
 
 class City extends React.Component {
   constructor(props) {
@@ -22,23 +25,21 @@ class City extends React.Component {
   render() {
     if (!this.props.city) return <h1>Loading</h1>;
     return (
-      <div className="container d-flex justify-content-center flex-column align-items-center">
-      <h1 className="text-center">{this.props.city.name} details</h1>
-       <div className="d-flex align-items-center">
+      <div className="w-100 d-flex justify-content-center">
+      <div className="city-detail d-flex justify-content-center flex-column align-items-center mb-5 pb-5">
+        <h1 className="text-center">{this.props.city.name}</h1>
+        <img className="city-image-lg" src={this.props.imageUrl} alt={this.props.city.name} />
+       <div className="d-flex justify-content-center w-100">
             <VisitedModal cityId={this.cityId} />
-            <button type="button" className="btn btn-primary m-3" data-toggle="modal" data-target="#planningModal">
-                <i className="fas fa-user-plus fa-lg"></i>
+            <PlanningModal cityId={this.cityId} />
+            {/* <button type="button" className="btn button-removed m-3" data-toggle="modal" data-target="#planningModal">
+                <FontAwesomeIcon icon={faRoute} />
                 <span className="md-hidden d-inline"> Not Yet? Plan to Visit</span>
-            </button>
-            <form action="/favorites" method="post">
-                {/* <input type="hidden" name="id" value="{{city._id}}" />
-                <input type="hidden" name="image" value="{{imageUrl}}" /> */}
-                <button type="submit" className="btn btn-primary m-3"><span className="md-hidden d-inline"> Add to Favorites</span></button>
-            </form>
+            </button> */}
         </div>
         <h2>Country: {this.props.city.country}</h2>
         <h4>Population: {this.props.city.population} citizens</h4>
-        <h5 className="text-left" style={{width: "70%"}}><div dangerouslySetInnerHTML={{__html:this.props.summary}} /></h5>
+        <h5 className="text-left"><div dangerouslySetInnerHTML={{__html:this.props.summary}} /></h5>
         <h3 className="text-center">{this.props.city.name} weather</h3>
         <div className="container-weather">
           <div
@@ -101,6 +102,7 @@ class City extends React.Component {
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

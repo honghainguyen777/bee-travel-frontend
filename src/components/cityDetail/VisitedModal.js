@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import "./City.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faImages, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import logo from '../nav/logo_transparent.png';
 import { submitVisitedForm, cityFormRedirect } from '../../actions';
 import { Redirect } from 'react-router'
@@ -64,9 +64,9 @@ class VisitedModal extends Component {
     if (this.props.cityFormSuccess) return (<Redirect to={`/memories/${this.props.memory_id}`} />);
     return (
       <>
-        <Button className="m-3" variant="primary" onClick={this.handleShow}>
-          <FontAwesomeIcon icon={faSignInAlt} />
-          <span className="md-hidden d-inline"> Visited? Add to History</span>
+        <Button className="m-3" variant="info" onClick={this.handleShow}>
+          <FontAwesomeIcon icon={faImages} />
+          <span className="md-hidden d-inline"> Visited? Create trip album</span>
         </Button>
         <Modal
           show={this.state.show}
@@ -76,12 +76,12 @@ class VisitedModal extends Component {
         >
           <Modal.Header closeButton>
             <div className="header-box w-100 d-flex justify-content-center flex-column align-items-center pl-4">
-              <Modal.Title>Visited Form</Modal.Title>
+              <Modal.Title>Visited Form - First Step</Modal.Title>
               <img className="logo-auth" src={logo} alt="logo-bee-travel"/>
             </div>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={this.handleFormSubmit} className="login-form ml-3 mr-3" method="post">
+            <form onSubmit={this.handleFormSubmit} className="login-form ml-3 mr-3">
             <div className="form-group row p-1 m-0">
                 <label htmlFor="fromDate" className="col-3 col-form-label p-0">From Date: </label>
                 <div className="col-9">

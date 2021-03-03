@@ -37,9 +37,11 @@ class App extends React.Component {
                         <Route exact path="/" component={Home} />
                         <Route exact path="/search" component={Search} />
                         <Route exact path="/map" component={Mapbox} />
-                        <Route exact path="/details/:id" component={City} />
                         <Route exact path="/memories/:id" component={Memory} />
                         <Route exact path="/gallery" component={Gallery} />
+                    </div>
+                    <div className="content-container-overscreen">
+                        <Route exact path="/details/:id" component={City} />
                     </div>
                 </BrowserRouter>
             </div>

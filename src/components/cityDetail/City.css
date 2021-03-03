@@ -1,3 +1,9 @@
+.city-detail {
+  width: 900px;
+}
+
+
+
 .container-weather {
     border-radius: 25px;
     -webkit-box-shadow: 0 0 70px -10px rgba(0, 0, 0, 0.2);
@@ -247,3 +253,18 @@
      text-decoration: none;
    }
   
+.button-removed {
+  border: none;
+  background: none;
+  background-color: none;
+  text-decoration: underline;
+  font-size: 18px;
+  color: black;
+  padding: 8px;
+}
+
+.city-image-lg {
+  width: 900px;
+  height: auto;
+  border-radius: 30px;
+}
